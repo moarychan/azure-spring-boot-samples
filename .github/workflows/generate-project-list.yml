@@ -1,0 +1,38 @@
+# This job template uses the artifact list in the ci.yml file
+# to generate a variable at build time that can be passed into
+# the Maven -pl command-line switch to constrain what subset of
+# projects are targeted based on the artifacts this pipeline
+# produces. The -am and -amd switches are then applied as
+# appropriate to constrain the full graph that is built depending
+# on whether we are doing a recorded test play back or a full live
+# test.
+
+parameters:
+  - name: Artifacts
+    type: object
+    default: []
+  - name: AdditionalModules
+    type: object
+    default: []
+
+steps:
+- pwsh: |
+    $artifacts = '${{ convertToJson(parameters.Artifacts) }}' | ConvertFrom-Json
+
+    $projectList = @()
+    $projectListAdditional = @()
+    foreach ($artifact in $artifacts) {
+      $projectList += "$($artifact.groupId):$($artifact.name)"
+      $projectListAdditional += "$($artifact.groupId):$($artifact.name)"
+    }
+    foreach ($artifact in $additionalModules) {
+      $projectListAdditional += "$($artifact.groupId):$($artifact.name)"
+    }
+    $projects = $projectList -join ','
+    $additionalModules = $projectList -join ','
+
+    Write-Host "ProjectList = $projects"
+    Write-Host "ProjectListAdditional = $additionalModules"
+    Write-Host "##vso[task.setvariable variable=ProjectList;]$projects"
+    Write-Host "##vso[task.setvariable variable=ProjectListAdditional;]$additionalModules"
+  displayName: Initialize project list variable

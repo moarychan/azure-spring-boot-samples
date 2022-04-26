@@ -5,43 +5,165 @@ name: CI
 
 on: [push, pull_request]
 
+parameters:
+  - name: Artifacts
+    type: object
+    default:
+      - name: spring-cloud-azure-starter-active-directory-resource-server-by-filter
+        groupId: com.azure.spring
+      - name: spring-cloud-azure-starter-active-directory-resource-server-by-filter-stateless
+        groupId: com.azure.spring
+      - name: spring-cloud-azure-starter-active-directory-webapp-resource-server
+        groupId: com.azure.spring
+      - name: spring-cloud-azure-starter-active-directory-resource-server
+        groupId: com.azure.spring
+      - name: spring-cloud-azure-starter-active-directory-resource-server-obo
+        groupId: com.azure.spring
+      - name: spring-cloud-azure-starter-active-directory-webapp
+        groupId: com.azure.spring
+      - name: servlet-oauth2-client-access-multiple-resource-server-client-application
+        groupId: com.azure.spring
+      - name: servlet-oauth2-client-access-multiple-resource-server-resource-server-1-application
+        groupId: com.azure.spring
+      - name: servlet-oauth2-client-access-multiple-resource-server-resource-server-2-application
+        groupId: com.azure.spring
+      - name: servlet-oauth2-client-access-resource-server-client-application
+        groupId: com.azure.spring
+      - name: servlet-oauth2-client-access-resource-server-resource-server-application
+        groupId: com.azure.spring
+      - name: servlet-oauth2-login
+        groupId: com.azure.spring
+      - name: servlet-oauth2-login-authenticate-using-private-key-jwt
+        groupId: com.azure.spring
+      - name: servlet-oauth2-resource-server-check-permissions-by-claims-in-access-token-client-application
+        groupId: com.azure.spring
+      - name: servlet-oauth2-resource-server-check-permissions-by-claims-in-access-token-resource-server-application
+        groupId: com.azure.spring
+      - name: servlet-oauth2-resource-server-support-on-behalf-of-flow-client-application
+        groupId: com.azure.spring
+      - name: servlet-oauth2-resource-server-support-on-behalf-of-flow-resource-server-1-application
+        groupId: com.azure.spring
+      - name: servlet-oauth2-resource-server-support-on-behalf-of-flow-resource-server-2-application
+        groupId: com.azure.spring
+      - name: spring-cloud-azure-starter-active-directory-b2c-oidc
+        groupId: com.azure.spring
+      - name: spring-cloud-azure-appconfiguration-convert-sample-complete
+        groupId: com.azure.spring
+      - name: azure-appconfiguration-convert-sample-initial
+        groupId: com.azure.spring
+      - name: azure-appconfiguration-refresh-sample
+        groupId: com.azure.spring
+      - name: azure-appconfiguration-sample
+        groupId: com.azure.spring
+      - name: feature-management-sample
+        groupId: com.azure.spring
+      - name: feature-management-web-sample
+        groupId: com.azure.spring
+      - name: appconfiguration-client
+        groupId: com.azure.spring
+      - name: spring-cloud-azure-sample-cache
+        groupId: com.azure.spring
+      - name: azure-cloud-foundry-service-sample
+        groupId: com.azure.spring
+      - name: azure-spring-boot-sample-cosmos-multi-database-multi-account
+        groupId: com.azure.spring
+      - name: azure-spring-boot-sample-cosmos-multi-database-single-account
+        groupId: com.azure.spring
+      - name: spring-cloud-azure-cosmos-sample
+        groupId: com.azure.spring
+      - name: spring-cloud-azure-data-cosmos-sample
+        groupId: com.azure.spring
+      - name: spring-cloud-azure-sample-eventhubs-kafka
+        groupId: com.azure.spring
+      - name: eventhubs-client
+        groupId: com.azure.spring
+      - name: eventhubs-integration
+        groupId: com.azure.spring
+      - name: eventhubs-binder
+        groupId: com.azure.spring
+      - name: spring-cloud-azure-sample-stream-eventhubs-multibinders
+        groupId: com.azure.spring
+      - name: run-with-command-line-client-side
+        groupId: com.azure.spring
+      - name: run-with-command-line-server-side
+        groupId: com.azure.spring
+      - name: property-source
+        groupId: com.azure.spring
+      - name: spring-cloud-azure-starter-keyvault-secrets-sample-secret-client
+        groupId: com.azure.spring
+      - name: spring-cloud-azure-starter-integration-sample-servicebus-multiple-namespaces
+        groupId: com.azure.spring
+      - name: spring-cloud-azure-starter-integration-sample-servicebus
+        groupId: com.azure.spring
+      - name: spring-cloud-azure-sample-servicebus-jms-queue
+        groupId: com.azure.spring
+      - name: spring-cloud-azure-sample-servicebus-jms-topic
+        groupId: com.azure.spring
+      - name: spring-cloud-azure-sample-stream-binder-servicebus-multiple
+        groupId: com.azure.spring
+      - name: spring-cloud-azure-sample-stream-binder-servicebus-queue
+        groupId: com.azure.spring
+      - name: spring-cloud-azure-sample-stream-binder-servicebus-queue-arm
+        groupId: com.azure.spring
+      - name: spring-cloud-azure-sample-stream-binder-servicebus-topic
+        groupId: com.azure.spring
+      - name: spring-petclinic-admin-server
+        groupId: org.springframework.samples.petclinic.admin
+      - name: spring-petclinic-api-gateway
+        groupId: org.springframework.samples.petclinic.api
+      - name: spring-petclinic-customers-service
+        groupId: org.springframework.samples.petclinic.client
+      - name: spring-petclinic-discovery-server
+        groupId: org.springframework.samples.petclinic.discovery
+      - name: spring-petclinic-vets-service
+        groupId: org.springframework.samples.petclinic.vets
+      - name: spring-petclinic-visits-service
+        groupId: org.springframework.samples.petclinic.visits
+
+AdditionalModules:
+  - name: Artifacts
+    type: object
+    default:
+      - name: storage-blob-native
+        groupId: com.azure.spring
+
 jobs:
   java-ci-with-maven-adopt:
     runs-on: ubuntu-latest
     
     steps:
-    - run: | 
-          git init azure-sdk-for-java
-          cd azure-sdk-for-java
-          git remote add origin https://github.com/Azure/azure-sdk-for-java.git
-          git config core.sparsecheckout true
-          echo "sdk/spring" >> .git/info/sparse-checkout
-          echo "eng" >> .git/info/sparse-checkout
-          echo "sdk/keyvault" >> .git/info/sparse-checkout
-          echo "sdk/boms" >> .git/info/sparse-checkout
-          git pull --depth=1 origin main
-          mvn clean install -Dmaven.javadoc.skip=true -DskipTests \
-            -Dcheckstyle.skip=true \
-            -ntp \
-            -Dspotbugs.skip=true \
-            -Drevapi.skip=true -Djacoco.skip=true \
-            -Dparallel-test-playback \
-            -Pdev \
-            -f sdk/spring/pom.xml
-    - uses: actions/checkout@v2
-    - name: Set up JDK 11
-      uses: actions/setup-java@v2
-      with:
-        java-version: '11'
-        distribution: 'adopt'
-        cache: maven
-    - name: Build with Maven
-      run: mvn -f pom.xml --batch-mode --update-snapshots verify
-    - name: Set up JDK 8
-      uses: actions/setup-java@v2
-      with:
-        java-version: '8'
-        distribution: 'adopt'
-        cache: maven
-    - name: Build with Maven
-      run: mvn -f pom.xml --batch-mode --update-snapshots verify
+      - run: |
+            git init azure-sdk-for-java
+            cd azure-sdk-for-java
+            git remote add origin https://github.com/Azure/azure-sdk-for-java.git
+            git config core.sparsecheckout true
+            echo "sdk/spring" >> .git/info/sparse-checkout
+            echo "eng" >> .git/info/sparse-checkout
+            echo "sdk/boms" >> .git/info/sparse-checkout
+            git pull --depth=1 origin main
+            mvn clean install -Dmaven.javadoc.skip=true -DskipTests \
+              -Dcheckstyle.skip=true \
+              -ntp \
+              -Dspotbugs.skip=true \
+              -Drevapi.skip=true -Djacoco.skip=true \
+              -Dparallel-test-playback \
+              -Pnative \
+              -f sdk/spring/pom.xml
+      - uses: actions/checkout@v2
+      - template: generate-project-list.yml
+        parameters:
+          Artifacts: ${{parameters.Artifacts}}
+      - task: Maven@3
+        displayName: 'Run the maven command to verify in Java 8'
+        inputs:
+          mavenPomFile: pom.xml
+          options: '--batch-mode --update-snapshots -pl $(ProjectList)'
+          jdkVersionOption: '1.8'
+          goals: 'verify'
+      - task: Maven@3
+        displayName: 'Run the maven command to verify in Java 11'
+        inputs:
+          mavenPomFile: pom.xml
+          options: '--batch-mode --update-snapshots -pl $(ProjectListAdditional)'
+          jdkVersionOption: '1.11'
+          goals: 'verify'
