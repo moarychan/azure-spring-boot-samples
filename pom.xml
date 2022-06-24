@@ -15,7 +15,7 @@
   <packaging>pom</packaging>
   <version>1.0.0</version>
 
-  <name>Azure Spring Boot Samples</name>
+  <name>Azure Spring Boot Samples test</name>
 
   <properties>
     <maven.compiler.source>1.8</maven.compiler.source>
