@@ -17,7 +17,7 @@
   <name>Spring PetClinic API Gateway</name>
 
   <properties>
-    <wro4j.version>1.8.0</wro4j.version>
+    <wro4j.version>1.10.1</wro4j.version>
     <docker.image.exposed.port>8081</docker.image.exposed.port>
     <docker.image.dockerfile.dir>${basedir}/../docker</docker.image.dockerfile.dir>
   </properties>
