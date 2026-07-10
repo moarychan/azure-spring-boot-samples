@@ -16,6 +16,7 @@ spring:
           consume-in-0:
             consumer:
               auto-complete: false
+              inherit-configuration: false
           supply-out-0:
             producer:
               entity-type: queue

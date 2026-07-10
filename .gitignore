@@ -441,3 +441,4 @@ terraform.rc
 **/application-develop.yaml
 
 .history/
+/servicebus/spring-cloud-azure-stream-binder-servicebus/servicebus-queue-binder/.env
